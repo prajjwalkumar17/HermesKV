@@ -1,0 +1,37 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    networks:
+      - hermes_net
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - "E:\\PROJECTS\\hermes_kv\\monitoring\\prometheus.yml:/etc/prometheus/prometheus.yml"
+    restart: unless-stopped
+
+  hermes-server:
+    image: hermes-server
+    networks:
+      - hermes_net
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - otel-collector
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: --config=/etc/otel-collector.yml
+    networks:
+      - hermes_net
+    volumes:
+      - "E:\\PROJECTS\\hermes_kv\\monitoring\\otel.yml:/etc/otel-collector.yml"
+    ports:
+      - "4318:4318"  # For OTLP HTTP
+      - "8888:8888"  # For metrics collection
+      - "8889:8889"  # For Prometheus exporter
+
+networks:
+  hermes_net:
+    driver: bridge
