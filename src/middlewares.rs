@@ -1,4 +1,3 @@
-
 /// Middleware for attaching default response headers. Headers with the same key already set in a
 /// response will not be overwritten.
 pub fn default_response_headers() -> actix_web::middleware::DefaultHeaders {
