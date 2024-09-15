@@ -1,5 +1,4 @@
-use actix_web::middleware::Logger;
-use HermesKV::{app::server_builder, config::GlobalConfig};
+use hermes_kv::{app::server_builder, config::GlobalConfig};
 
 #[tokio::main]
 async fn main() {

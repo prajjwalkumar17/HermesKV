@@ -1,8 +1,5 @@
-use actix_web::http::StatusCode;
-
 use crate::{
     api_models::response_models::CheckHealthResponse,
-    app::AppState,
     errors::{Response, RouterResponse},
 };
 

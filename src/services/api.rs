@@ -1,4 +1,4 @@
-use actix_web::{body, HttpMessage, HttpResponse};
+use actix_web::{body, HttpResponse};
 
 pub fn http_response_json<T: body::MessageBody + 'static>(resonse: T) -> HttpResponse {
     HttpResponse::Ok()

@@ -3,11 +3,7 @@ use actix_web::{web, HttpRequest, HttpResponse, Scope};
 use crate::{
     app::AppState,
     core::hermes::check_health,
-    errors::RouterResponse,
-    services::{
-        self,
-        api::{self, http_response_err, http_response_json},
-    },
+    services::api::{ http_response_err, http_response_json},
 };
 
 pub struct Hermes;

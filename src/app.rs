@@ -1,12 +1,11 @@
 use actix_web::{
-    body::{BoxBody, MessageBody},
-    dev::{Server, ServiceFactory, ServiceRequest, ServiceResponse},
-    http::StatusCode,
+    body::MessageBody,
+    dev::{Server, ServiceFactory, ServiceRequest},
     middleware,
 };
 
 use crate::{
-    config::{self, GlobalConfig},
+    config::GlobalConfig,
     errors::ApplicationResult,
     middlewares, routes,
 };
