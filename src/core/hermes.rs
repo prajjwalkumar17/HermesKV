@@ -1,6 +1,6 @@
 use crate::{
     api_models::response_models::CheckHealthResponse,
-    errors::{Response, RouterResponse},
+    errors::{Response, RouterResponse}
 };
 
 pub async fn check_health(// _state: AppState,

@@ -1,4 +1,4 @@
-use hermes_kv::{app::server_builder, config::GlobalConfig};
+use hermes_kv::{app::server_builder, config::GlobalConfig, logger};
 use prometheus::{Counter, Opts};
 
 #[tokio::main]
@@ -19,8 +19,8 @@ async fn main() {
         .expect("unable to start monitoring");
 
     let configs = GlobalConfig::default();
-    env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
-    println!("Server started with {configs:?}");
+    let _guard = logger::setup(&configs.log);
+    logger::warn!("Server started with {configs:?}");
     let server = server_builder(configs, health_check_counter)
         .await
         .expect("Failed to create the server");
