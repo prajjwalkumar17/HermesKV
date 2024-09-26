@@ -1,6 +1,9 @@
+use crate::logger::LogConfig;
+
 #[derive(Clone, Debug)]
 pub struct GlobalConfig {
     pub server: Server,
+    pub log: LogConfig,
     // pub database: Database,
     // pub log: Log,
 }
@@ -16,6 +19,7 @@ impl Default for GlobalConfig {
     fn default() -> Self {
         Self {
             server: Server::default(),
+            log: LogConfig::default(),
         }
     }
 }

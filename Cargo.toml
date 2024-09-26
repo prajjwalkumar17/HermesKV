@@ -3,13 +3,48 @@ name = "hermes_kv"
 version = "0.1.0"
 edition = "2021"
 
+[lints.rust]
+unsafe_code = "forbid"
+rust_2018_idioms = { level = "warn", priority = -1 } # Remove priority once https://github.com/rust-lang/rust-clippy/pull/12827 is available in stable clippy
+unused_qualifications = "warn"
+# missing_debug_implementations = "warn"
+# missing_docs = "warn"
+
+[lints.clippy]
+as_conversions = "warn"
+expect_used = "warn"
+index_refutable_slice = "warn"
+indexing_slicing = "warn"
+large_futures = "warn"
+match_on_vec_items = "warn"
+missing_panics_doc = "warn"
+out_of_bounds_indexing = "warn"
+panic = "warn"
+panic_in_result_fn = "warn"
+panicking_unwrap = "warn"
+print_stderr = "warn"
+print_stdout = "warn"
+todo = "warn"
+unimplemented = "warn"
+unreachable = "warn"
+unwrap_in_result = "warn"
+unwrap_used = "warn"
+use_self = "warn"
+
+# Lints to allow
+option_map_unit_fn = "allow"
+
 [dependencies]
 actix-web = "4.5.1"
+config = "0.14.0"
 serde = { version = "1.0.197", features = ["derive"] }
 error-stack = "0.4.1"
 mime = "0.3.17"
 serde_json = "1.0"
 tokio = { version = "1", features = ["full"] }
+tracing = { version = "0.1.40" }
+tracing-appender = { version = "0.2.3" }
+tracing-subscriber = { version = "0.3.18", default-features = true, features = ["env-filter", "json", "registry"] }
 env_logger = "0.10"
 opentelemetry = { version = "0.11", features = ["trace", "metrics"] }
 opentelemetry-prometheus = "0.17"

@@ -8,3 +8,4 @@ pub mod metrics;
 pub mod middlewares;
 pub mod routes;
 pub mod services;
+pub mod logger;
