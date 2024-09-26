@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hermes-deployment
+  labels:
+    app: hermes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hermes
+  template:
+    metadata:
+      labels:
+        app: hermes
+    spec:
+      containers:
+      - name: hermes
+        image: hermes-server:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080

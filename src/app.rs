@@ -3,12 +3,9 @@ use actix_web::{
     dev::{Server, ServiceFactory, ServiceRequest},
     middleware,
 };
+use prometheus::Counter;
 
-use crate::{
-    config::GlobalConfig,
-    errors::ApplicationResult,
-    middlewares, routes,
-};
+use crate::{config::GlobalConfig, errors::ApplicationResult, middlewares, routes};
 
 pub fn check_health() {
     println!("Health is good!");
@@ -25,20 +22,29 @@ impl AppState {
     }
 }
 
-pub async fn server_builder(conf: GlobalConfig) -> ApplicationResult<Server> {
+pub async fn server_builder(
+    conf: GlobalConfig,
+    health_check_counter: Counter,
+) -> ApplicationResult<Server> {
     let server = conf.server.clone();
     let state = AppState::new(conf);
     let request_body_limit = server.request_body_limit;
 
-    let server_builder =
-        actix_web::HttpServer::new(move || mk_app(state.clone(), request_body_limit.into()))
-            .bind((server.host.as_str(), server.port))?;
+    let server_builder = actix_web::HttpServer::new(move || {
+        mk_app(
+            state.clone(),
+            request_body_limit.into(),
+            health_check_counter.clone(),
+        )
+    })
+    .bind((server.host.as_str(), server.port))?;
     Ok(server_builder.run())
 }
 
 pub fn mk_app(
     state: AppState,
     request_body_limit: usize,
+    health_check_counter: Counter,
 ) -> actix_web::App<
     impl ServiceFactory<
         ServiceRequest,
@@ -49,7 +55,7 @@ pub fn mk_app(
     >,
 > {
     let mut server_app = get_application_builder(request_body_limit);
-    server_app = server_app.service(routes::Hermes::server(state));
+    server_app = server_app.service(routes::Hermes::server(state, health_check_counter));
     server_app
 }
 

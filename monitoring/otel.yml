@@ -1,0 +1,36 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+
+exporters:
+  otlp:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
+
+  logging:
+    loglevel: debug
+
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    namespace: hermes
+    const_labels:
+      app_name: hermes-api
+
+service:
+  telemetry:
+    logs:
+      level: debug
+    metrics:
+      level: detailed
+      address: 0.0.0.0:8888
+
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      exporters: [prometheus]
+    traces:
+      receivers: [otlp]
+      exporters: [otlp]
+
